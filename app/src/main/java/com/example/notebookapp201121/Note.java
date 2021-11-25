@@ -3,7 +3,7 @@ package com.example.notebookapp201121;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Note implements Parcelable {
+public final class Note implements Parcelable {
 
     private String noteTitle;
     private String noteDate;

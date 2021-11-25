@@ -4,22 +4,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#66BB86FC"
+    android:background="@color/content_background"
     tools:context=".NoteContentFragment">
 
-    <EditText
-        android:id="@+id/titleEditText"
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:background="#80673AB7" />
+        android:textSize="@dimen/title_text_size"
+        android:background="@color/content_background_color" />
 
-    <EditText
-        android:id="@+id/contentEditText"
+    <FrameLayout
+        android:id="@+id/content_child_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:inputType="textMultiLine"
-        android:gravity="start|top"/>
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/content_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start|top"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/content_edit_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/margin_btw_buttons"
+            android:textSize="@dimen/buttons_text_size"
+            android:text="@string/edit_button_text"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/content_back_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="@dimen/margin_btw_buttons"
+            android:textSize="@dimen/buttons_text_size"
+            android:text="@string/back_button_text"/>
+
+    </LinearLayout>
+
 
 
 </LinearLayout>

@@ -7,10 +7,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 public class NoteContentFragment extends Fragment {
@@ -30,7 +30,10 @@ public class NoteContentFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            note = getArguments().getParcelable(KEY);
+            note = (Note) getArguments().getParcelable(KEY);
+        }
+        if (savedInstanceState != null) {
+            requireActivity().getSupportFragmentManager().popBackStack();
         }
     }
 
@@ -43,12 +46,43 @@ public class NoteContentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        EditText noteEditText = view.findViewById(R.id.contentEditText);
+
+        if (note == null) {
+            return;
+        }
+
+        TextView contentTextView = view.findViewById(R.id.content_text_view);
+
         TypedArray contents = getResources().obtainTypedArray(R.array.contents);
-        noteEditText.setText(contents.getString(note.getNoteContentIndex()));
-        EditText titleEditText = view.findViewById(R.id.titleEditText);
-        titleEditText.setText(note.getNoteTitle());
+        contentTextView.setText(contents.getString(note.getNoteContentIndex()));
+
+        TextView titleTextView = view.findViewById(R.id.title_text_view);
+        titleTextView.setText(note.getNoteTitle());
         contents.recycle();
 
+        view.findViewById(R.id.content_back_button).setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager().popBackStack();
+        });
+
+        view.findViewById(R.id.content_edit_btn).setOnClickListener(v -> {
+
+            getChildFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content_child_container, NoteContentChildFragment.newInstance(note))
+                    .addToBackStack("")
+                    .commit();
+
+        });
+
+        Log.d("Fragment NoteContent", "Start");
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        Log.d("Fragment NoteContent", "Finish");
+
+    }
+
 }
