@@ -10,16 +10,13 @@ public final class Note implements Parcelable {
     private String noteContent;
     private int noteContentIndex;
 
+    public Note() {
+
+    }
+
     public Note(String noteTitle, int noteIndex) {
         this.noteTitle = noteTitle;
         this.noteContentIndex = noteIndex;
-    }
-
-    public Note() {
-        this.noteTitle = "no title";
-        this.noteDate = "no date";
-        this.noteContent = "no content";
-        this.noteContentIndex = 0;
     }
 
     protected Note(Parcel in) {

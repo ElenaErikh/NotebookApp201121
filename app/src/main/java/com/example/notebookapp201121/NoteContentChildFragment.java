@@ -21,6 +21,9 @@ public class NoteContentChildFragment extends Fragment {
         NoteContentChildFragment fragment = new NoteContentChildFragment();
         Bundle args = new Bundle();
         args.putParcelable(CHILD_INDEX, note);
+        if (note.getNoteTitle() == null){
+            return fragment;
+        }
         fragment.setArguments(args);
         return fragment;
     }
