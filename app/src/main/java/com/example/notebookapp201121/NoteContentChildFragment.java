@@ -7,11 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.google.android.material.snackbar.Snackbar;
 
 public class NoteContentChildFragment extends Fragment {
 
@@ -60,7 +61,13 @@ public class NoteContentChildFragment extends Fragment {
         view.findViewById(R.id.child_save_btn).setOnClickListener(v -> {
             getParentFragmentManager().popBackStack();
 
-            Toast.makeText(getContext(), "Save", Toast.LENGTH_SHORT).show();
+            if (arguments == null) {
+                MyNotificationResult notificationResult = (MyNotificationResult) requireActivity();
+                notificationResult.onSnackBarResult("Your note was successfully saved!");
+            } else {
+                Snackbar.make(getParentFragment().getView().findViewById(R.id.note_container),
+                        "Changes were successfully saved!", Snackbar.LENGTH_SHORT).show();
+            }
         });
 
         Log.d("Fragment Editable", "Start");

@@ -11,23 +11,32 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MyNotificationResult {
+
+    Utils utils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        utils = new Utils();
+
         initToolbar();
 
         if (savedInstanceState == null) {
-            TitlesFragment titlesFragment = new TitlesFragment();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, titlesFragment)
-                    .commit();
+            openTitleFragment();
         }
+    }
+
+    private void openTitleFragment() {
+        TitlesFragment titlesFragment = new TitlesFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, titlesFragment)
+                .commit();
     }
 
     private void initToolbar() {
@@ -47,6 +56,10 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
             switch (id) {
+                case R.id.action_all_notes:
+                    openTitleFragment();
+                    drawer.closeDrawers();
+                    return true;
                 case R.id.action_about:
                     openAboutFragment();
                     drawer.closeDrawers();
@@ -56,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     drawer.closeDrawers();
                     return true;
                 case R.id.action_exit:
-                    finish();
+                    showAlertDialogFragment();
                     return true;
             }
             return false;
@@ -74,6 +87,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         switch (id) {
+            case R.id.action_all_notes:
+                openTitleFragment();
+                return true;
             case R.id.action_about:
                 openAboutFragment();
                 return true;
@@ -81,14 +97,14 @@ public class MainActivity extends AppCompatActivity {
                 openNoteContentChildFragment();
                 return true;
             case R.id.action_exit:
-                finish();
+                showAlertDialogFragment();
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void openNoteContentChildFragment () {
+    private void openNoteContentChildFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack("")
@@ -104,4 +120,12 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
+    private void showAlertDialogFragment() {
+        new MyDialogFragment().show(getSupportFragmentManager(), MyDialogFragment.TAG);
+    }
+
+    @Override
+    public void onSnackBarResult(String text) {
+        Snackbar.make(findViewById(R.id.fragment_container), text, Snackbar.LENGTH_SHORT).show();
+    }
 }

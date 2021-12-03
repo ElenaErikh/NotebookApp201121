@@ -16,4 +16,5 @@
     <string name="description">description</string>
     <string name="navigation_drawer_open">drawer open</string>
     <string name="navigation_drawer_close">drawer close</string>
+    <string name="all_notes">All notes</string>
 </resources>

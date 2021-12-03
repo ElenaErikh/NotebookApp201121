@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class NoteContentFragment extends Fragment {
+public class NoteContentFragment extends Utils{
 
     public static final String KEY = "key";
     private Note note;
@@ -33,7 +32,9 @@ public class NoteContentFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            note = (Note) getArguments().getParcelable(KEY);
+            if(getArguments().getParcelable(KEY) instanceof Note) {
+                note = getArguments().getParcelable(KEY);
+            }
         }
         if (savedInstanceState != null) {
             requireActivity().getSupportFragmentManager().popBackStack();
@@ -69,16 +70,15 @@ public class NoteContentFragment extends Fragment {
         });
 
         view.findViewById(R.id.content_edit_btn).setOnClickListener(v -> {
-            getChildFragmentManager()
-                    .beginTransaction()
+            getChildTrans()
                     .replace(R.id.content_child_container, NoteContentChildFragment.newInstance(note))
                     .addToBackStack("")
                     .commit();
-
         });
 
         Log.d("Fragment NoteContent", "Start");
     }
+
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
