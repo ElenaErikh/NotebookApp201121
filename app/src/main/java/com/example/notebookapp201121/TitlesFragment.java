@@ -1,6 +1,5 @@
 package com.example.notebookapp201121;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,13 +8,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
 
 public class TitlesFragment extends Fragment {
 
@@ -48,6 +50,9 @@ public class TitlesFragment extends Fragment {
         }
 
         initList(view);
+
+        Log.d("Fragment Titles", "Start");
+
     }
 
     private void initList(View view) {
@@ -58,34 +63,30 @@ public class TitlesFragment extends Fragment {
             String title = titles[i];
             TextView tvTitle = new TextView(getContext());
             tvTitle.setText(title);
-            tvTitle.setTextSize(30);
-            linearLayout.addView(tvTitle);
+            tvTitle.setTextSize(getResources().getDimension(R.dimen.titles_list_text_size));
+
             final int fi = i;
             tvTitle.setOnClickListener(v -> {
-                currentNote = new Note(getResources().getStringArray(R.array.titles)[fi], fi);
+                currentNote = new Note(title, fi);
                 showNoteContent(currentNote);
-                updateText(currentNote);
+//                updateText(currentNote);
             });
+
+            linearLayout.addView(tvTitle);
         }
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putParcelable(CURRENT_NOTE_TITLE, currentNote);
-        super.onSaveInstanceState(outState);
-    }
-
-    private void updateText(Note currentNote){
-        LinearLayout linearLayout = (LinearLayout) getView();
-        for (int i = 0; i < linearLayout.getChildCount(); i++) {
-            TextView textView = (TextView) linearLayout.getChildAt(i);
-            textView.setBackgroundColor(Color.WHITE);
-        }
-        ((TextView) linearLayout.getChildAt(currentNote.getNoteContentIndex())).setBackgroundColor(Color.BLUE);
-    }
+//    private void updateText(Note currentNote) {
+//        LinearLayout linearLayout = (LinearLayout) getView();
+//        for (int i = 0; i < linearLayout.getChildCount(); i++) {
+//            TextView textView = (TextView) linearLayout.getChildAt(i);
+//            textView.setBackgroundColor(Color.WHITE);
+//        }
+//        ((TextView) linearLayout.getChildAt(currentNote.getNoteContentIndex())).setBackgroundColor(Color.BLUE);
+//    }
 
     private void showNoteContent(Note currentNote) {
-        if(isLand){
+        if (isLand) {
             showNoteContentLand(currentNote);
         } else {
             showNoteContentPort(currentNote);
@@ -93,22 +94,43 @@ public class TitlesFragment extends Fragment {
     }
 
     private void showNoteContentLand(Note currentNote) {
-        NoteContentFragment contentFragment = NoteContentFragment.newInstance(currentNote);
-
         requireActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.content_land, contentFragment)
+                .replace(R.id.content_land, NoteContentFragment.newInstance(currentNote))
+                .addToBackStack("")
                 .commit();
     }
 
     private void showNoteContentPort(Note currentNote) {
-        Intent intent = new Intent();
-        intent.setClass(getActivity(), NoteContentActivity.class);
-        intent.putExtra(NoteContentFragment.KEY, currentNote);
-        startActivity(intent);
+
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        List<Fragment> fragments = fragmentManager.getFragments();
+        for (Fragment fragment : fragments) {
+            if (fragment instanceof TitlesFragment && fragment.isVisible()) {
+                fragmentManager.beginTransaction()
+                        .remove(fragment)
+                        .replace(R.id.fragment_container, NoteContentFragment.newInstance(currentNote))
+                        .addToBackStack("")
+                        .commit();
+            }
+        }
+
+//    requireActivity().getSupportFragmentManager()
+//                .beginTransaction()
+//                .replace(R.id.fragment_container, NoteContentFragment.newInstance(currentNote))
+//                .addToBackStack("")
+//                .commit();
+
+        Log.d("Fragment Titles", "Add to backstack");
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
 
+        Log.d("Fragment Titles", "Finish");
+
+    }
 
 
 }

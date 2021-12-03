@@ -2,4 +2,10 @@
     <string name="app_name">NotebookApp201121</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="cancel_button_text">cancel</string>
+    <string name="notes">Notes</string>
+    <string name="edit_button_text">edit</string>
+    <string name="save_button_text">save</string>
+    <string name="back_button_text">back</string>
+    <string name="add_text_view">+</string>
 </resources>
