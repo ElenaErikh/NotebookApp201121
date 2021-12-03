@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -40,6 +43,7 @@ public class NoteContentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_note_content, container, false);
     }
 
@@ -65,7 +69,6 @@ public class NoteContentFragment extends Fragment {
         });
 
         view.findViewById(R.id.content_edit_btn).setOnClickListener(v -> {
-
             getChildFragmentManager()
                     .beginTransaction()
                     .replace(R.id.content_child_container, NoteContentChildFragment.newInstance(note))
@@ -75,6 +78,16 @@ public class NoteContentFragment extends Fragment {
         });
 
         Log.d("Fragment NoteContent", "Start");
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        MenuItem item = menu.findItem(R.id.action_add);
+        if (item != null){
+            item.setVisible(false);
+        }
+
+        menu.add(Menu.NONE, 20, Menu.NONE, "Item menu");
     }
 
     @Override

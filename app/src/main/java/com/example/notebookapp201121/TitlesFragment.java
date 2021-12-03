@@ -15,8 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.List;
 
 public class TitlesFragment extends Fragment {
@@ -69,21 +67,21 @@ public class TitlesFragment extends Fragment {
             tvTitle.setOnClickListener(v -> {
                 currentNote = new Note(title, fi);
                 showNoteContent(currentNote);
-//                updateText(currentNote);
+                updateText(currentNote);
             });
 
             linearLayout.addView(tvTitle);
         }
     }
 
-//    private void updateText(Note currentNote) {
-//        LinearLayout linearLayout = (LinearLayout) getView();
-//        for (int i = 0; i < linearLayout.getChildCount(); i++) {
-//            TextView textView = (TextView) linearLayout.getChildAt(i);
-//            textView.setBackgroundColor(Color.WHITE);
-//        }
-//        ((TextView) linearLayout.getChildAt(currentNote.getNoteContentIndex())).setBackgroundColor(Color.BLUE);
-//    }
+    private void updateText(Note currentNote) {
+        LinearLayout linearLayout = (LinearLayout) getView();
+        for (int i = 0; i < linearLayout.getChildCount(); i++) {
+            TextView textView = (TextView) linearLayout.getChildAt(i);
+            textView.setBackgroundColor(Color.WHITE);
+        }
+        ((TextView) linearLayout.getChildAt(currentNote.getNoteContentIndex())).setBackgroundColor(Color.BLUE);
+    }
 
     private void showNoteContent(Note currentNote) {
         if (isLand) {
@@ -114,12 +112,6 @@ public class TitlesFragment extends Fragment {
                         .commit();
             }
         }
-
-//    requireActivity().getSupportFragmentManager()
-//                .beginTransaction()
-//                .replace(R.id.fragment_container, NoteContentFragment.newInstance(currentNote))
-//                .addToBackStack("")
-//                .commit();
 
         Log.d("Fragment Titles", "Add to backstack");
     }
