@@ -1,4 +1,4 @@
-package com.example.notebookapp201121;
+package com.example.notebookapp201121.ui;
 
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,7 +16,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class NoteContentFragment extends Utils{
+import com.example.notebookapp201121.R;
+import com.example.notebookapp201121.data.Note;
+
+public class NoteContentFragment extends Utils {
 
     public static final String KEY = "key";
     private Note note;
@@ -83,7 +87,7 @@ public class NoteContentFragment extends Utils{
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         MenuItem item = menu.findItem(R.id.action_add);
-        if (item != null){
+        if (item != null) {
             item.setVisible(false);
         }
 

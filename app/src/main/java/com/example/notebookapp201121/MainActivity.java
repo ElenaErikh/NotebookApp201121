@@ -5,11 +5,19 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.notebookapp201121.ui.AboutFragment;
+import com.example.notebookapp201121.ui.MyDialogFragment;
+import com.example.notebookapp201121.ui.MyNotificationResult;
+import com.example.notebookapp201121.data.Note;
+import com.example.notebookapp201121.ui.NoteContentChildFragment;
+import com.example.notebookapp201121.ui.TitlesFragment;
+import com.example.notebookapp201121.ui.Utils;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
