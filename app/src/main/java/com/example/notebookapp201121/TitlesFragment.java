@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.List;
 
-public class TitlesFragment extends Fragment {
+public class TitlesFragment extends Utils{
 
     public static final String CURRENT_NOTE_TITLE = "CurrentTitle";
     public static final int DEF_VALUE = 0;
