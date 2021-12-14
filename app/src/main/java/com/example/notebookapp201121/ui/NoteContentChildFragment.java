@@ -1,5 +1,6 @@
-package com.example.notebookapp201121;
+package com.example.notebookapp201121.ui;
 
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,11 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.notebookapp201121.R;
+import com.example.notebookapp201121.data.Note;
 import com.google.android.material.snackbar.Snackbar;
 
 public class NoteContentChildFragment extends Fragment {
 
     public static final String CHILD_INDEX = "index";
+    private Resources resource;
 
     public static NoteContentChildFragment newInstance(Note note) {
         NoteContentChildFragment fragment = new NoteContentChildFragment();
@@ -63,10 +67,10 @@ public class NoteContentChildFragment extends Fragment {
 
             if (arguments == null) {
                 MyNotificationResult notificationResult = (MyNotificationResult) requireActivity();
-                notificationResult.onSnackBarResult("Your note was successfully saved!");
+                notificationResult.onSnackBarResult(resource.getString(R.string.saveNote));
             } else {
                 Snackbar.make(getParentFragment().getView().findViewById(R.id.note_container),
-                        "Changes were successfully saved!", Snackbar.LENGTH_SHORT).show();
+                        resource.getString(R.string.saveChanges), Snackbar.LENGTH_SHORT).show();
             }
         });
 

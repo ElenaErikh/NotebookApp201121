@@ -1,4 +1,4 @@
-package com.example.notebookapp201121;
+package com.example.notebookapp201121.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -14,9 +14,10 @@ public final class Note implements Parcelable {
 
     }
 
-    public Note(String noteTitle, int noteIndex) {
+    public Note(String noteTitle, String noteDate, String noteContent) {
         this.noteTitle = noteTitle;
-        this.noteContentIndex = noteIndex;
+        this.noteDate = noteDate;
+        this.noteContent = noteContent;
     }
 
     protected Note(Parcel in) {
@@ -26,7 +27,7 @@ public final class Note implements Parcelable {
         noteContentIndex = in.readInt();
     }
 
-    public static final Creator<Note> CREATOR = new Creator<Note>() {
+    public static final Parcelable.Creator<Note> CREATOR = new Parcelable.Creator<Note>() {
         @Override
         public Note createFromParcel(Parcel in) {
             return new Note(in);
