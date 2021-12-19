@@ -7,7 +7,7 @@
     android:background="@color/grayish_white"
     android:clickable="true"
     android:focusable="true"
-    tools:context=".NoteContentFragment">
+    tools:context=".ui.NoteContentFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
