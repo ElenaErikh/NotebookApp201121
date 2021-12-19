@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,34 +18,41 @@ import com.example.notebookapp201121.ui.MyNotificationResult;
 import com.example.notebookapp201121.data.Note;
 import com.example.notebookapp201121.ui.NoteContentChildFragment;
 import com.example.notebookapp201121.ui.TitlesFragment;
-import com.example.notebookapp201121.ui.Utils;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity implements MyNotificationResult {
 
-    Utils utils;
+    private Navigation navigation;
+    private Publisher publisher = new Publisher();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        utils = new Utils();
+        navigation = new Navigation(getSupportFragmentManager());
 
         initToolbar();
 
+        getNavigation().addFragment(R.id.fragment_container, new TitlesFragment(), false);
+
         if (savedInstanceState == null) {
-            openTitleFragment();
+            openFragment(new TitlesFragment());
         }
     }
 
-    private void openTitleFragment() {
-        TitlesFragment titlesFragment = new TitlesFragment();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, titlesFragment)
-                .commit();
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    public Navigation getNavigation() {
+        return navigation;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
     }
 
     private void initToolbar() {
@@ -65,15 +73,15 @@ public class MainActivity extends AppCompatActivity implements MyNotificationRes
             int id = item.getItemId();
             switch (id) {
                 case R.id.action_all_notes:
-                    openTitleFragment();
+                    openFragment(new TitlesFragment());
                     drawer.closeDrawers();
                     return true;
                 case R.id.action_about:
-                    openAboutFragment();
+                    openFragment(new AboutFragment());
                     drawer.closeDrawers();
                     return true;
                 case R.id.action_add:
-                    openNoteContentChildFragment();
+                    openFragment(NoteContentChildFragment.newInstance(new Note()));
                     drawer.closeDrawers();
                     return true;
                 case R.id.action_exit:
@@ -96,13 +104,13 @@ public class MainActivity extends AppCompatActivity implements MyNotificationRes
         int id = item.getItemId();
         switch (id) {
             case R.id.action_all_notes:
-                openTitleFragment();
+                openFragment(new TitlesFragment());
                 return true;
             case R.id.action_about:
-                openAboutFragment();
+                openFragment(new AboutFragment());
                 return true;
             case R.id.action_add:
-                openNoteContentChildFragment();
+               openFragment(NoteContentChildFragment.newInstance(new Note()));
                 return true;
             case R.id.action_exit:
                 showAlertDialogFragment();
@@ -112,19 +120,11 @@ public class MainActivity extends AppCompatActivity implements MyNotificationRes
         return super.onOptionsItemSelected(item);
     }
 
-    private void openNoteContentChildFragment() {
+    private void openFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack("")
-                .replace(R.id.fragment_container, NoteContentChildFragment.newInstance(new Note()))
-                .commit();
-    }
-
-    private void openAboutFragment() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .addToBackStack("")
-                .replace(R.id.fragment_container, new AboutFragment())
+                .replace(R.id.fragment_container, fragment)
                 .commit();
     }
 

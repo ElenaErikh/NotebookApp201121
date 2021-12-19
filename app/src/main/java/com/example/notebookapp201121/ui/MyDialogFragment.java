@@ -15,19 +15,18 @@ import com.example.notebookapp201121.R;
 public class MyDialogFragment extends DialogFragment {
 
     public static final String TAG = "MyTAG";
-    private Resources resource;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Activity activity = requireActivity();
         return new AlertDialog.Builder(activity)
-                .setMessage(resource.getString(R.string.quitQwestion))
-                .setPositiveButton(resource.getString(R.string.yes), (dialogInterface, i) -> {
+                .setMessage(getResources().getString(R.string.quitQwestion))
+                .setPositiveButton(getResources().getString(R.string.yes), (dialogInterface, i) -> {
                     activity.finish();
                     return;
                 })
-                .setNegativeButton(resource.getString(R.string.no), null)
+                .setNegativeButton(getResources().getString(R.string.no), null)
                 .create();
 
 

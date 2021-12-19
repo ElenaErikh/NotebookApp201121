@@ -118,5 +118,8 @@
     <string name="no">No</string>
     <string name="saveNote">Your note was successfully saved!</string>
     <string name="saveChanges">Changes were successfully saved!</string>
+    <string name="action_delete">Delete note</string>
+    <string name="action_clear">Delete all notes</string>
+    <string name="edit_note">Edit note</string>
 
 </resources>

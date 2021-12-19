@@ -22,7 +22,7 @@ public class NotesData implements NoteSource {
         String[] content = resource.getStringArray(R.array.contents);
 
         for (int i = 0; i < titles.length; i++) {
-            noteList.add(new Note(titles[i], null, content[i]));
+            noteList.add(new Note(titles[i], content[i]));
         }
         return this;
     }
@@ -37,4 +37,23 @@ public class NotesData implements NoteSource {
         return noteList.size();
     }
 
+    @Override
+    public void deleteNote(int position) {
+        noteList.remove(position);
+    }
+
+    @Override
+    public void updateNote(int position, Note note) {
+        noteList.set(position, note);
+    }
+
+    @Override
+    public void addNote(Note note) {
+        noteList.add(note);
+    }
+
+    @Override
+    public void clearNote() {
+        noteList.clear();
+    }
 }
